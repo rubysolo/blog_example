@@ -6,10 +6,7 @@ import Config
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
 config :blergh, Blergh.Repo,
-  username: "postgres",
-  password: "postgres",
-  hostname: "localhost",
-  database: "blergh_test#{System.get_env("MIX_TEST_PARTITION")}",
+  url: "postgres://localhost/blergh_test#{System.get_env("MIX_TEST_PARTITION")}",
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: 10
 
