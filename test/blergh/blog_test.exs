@@ -8,7 +8,7 @@ defmodule Blergh.BlogTest do
 
     import Blergh.BlogFixtures
 
-    @invalid_attrs %{content: nil, subtitle: nil, title: nil}
+    @invalid_attrs %{content: nil, title: nil}
 
     test "list_posts/0 returns all posts" do
       post = post_fixture()
@@ -21,11 +21,10 @@ defmodule Blergh.BlogTest do
     end
 
     test "create_post/1 with valid data creates a post" do
-      valid_attrs = %{content: "some content", subtitle: "some subtitle", title: "some title"}
+      valid_attrs = %{content: "some content", title: "some title"}
 
       assert {:ok, %Post{} = post} = Blog.create_post(valid_attrs)
       assert post.content == "some content"
-      assert post.subtitle == "some subtitle"
       assert post.title == "some title"
     end
 
@@ -35,11 +34,10 @@ defmodule Blergh.BlogTest do
 
     test "update_post/2 with valid data updates the post" do
       post = post_fixture()
-      update_attrs = %{content: "some updated content", subtitle: "some updated subtitle", title: "some updated title"}
+      update_attrs = %{content: "some updated content", title: "some updated title"}
 
       assert {:ok, %Post{} = post} = Blog.update_post(post, update_attrs)
       assert post.content == "some updated content"
-      assert post.subtitle == "some updated subtitle"
       assert post.title == "some updated title"
     end
 
