@@ -10,7 +10,7 @@ defmodule BlerghWeb.PostController do
   end
 
   def new(conn, _params) do
-    changeset = Blog.change_post(%Post{})
+    changeset = Blog.change_post(%Post{published_on: Date.utc_today()})
     render(conn, :new, changeset: changeset)
   end
 

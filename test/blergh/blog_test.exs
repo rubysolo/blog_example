@@ -21,7 +21,7 @@ defmodule Blergh.BlogTest do
     end
 
     test "create_post/1 with valid data creates a post" do
-      valid_attrs = %{content: "some content", title: "some title"}
+      valid_attrs = %{content: "some content", title: "some title", published_on: Date.utc_today()}
 
       assert {:ok, %Post{} = post} = Blog.create_post(valid_attrs)
       assert post.content == "some content"

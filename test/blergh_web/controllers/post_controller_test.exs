@@ -3,7 +3,7 @@ defmodule BlerghWeb.PostControllerTest do
 
   import Blergh.BlogFixtures
 
-  @create_attrs %{content: "some content", title: "some title"}
+  @create_attrs %{content: "some content", title: "some title", published_on: Date.utc_today()}
   @update_attrs %{content: "some updated content", title: "some updated title"}
   @invalid_attrs %{content: nil, title: nil}
 
@@ -11,6 +11,27 @@ defmodule BlerghWeb.PostControllerTest do
     test "lists all posts", %{conn: conn} do
       conn = get(conn, ~p"/posts")
       assert html_response(conn, 200) =~ "Listing Posts"
+    end
+
+    test "posts are sorted newest to oldest", %{conn: conn} do
+      [
+        %{title: "middle", published_on: ~D[3023-06-01]},
+        %{title: "newest", published_on: ~D[3023-07-01]},
+        %{title: "oldest", published_on: ~D[3023-05-01]},
+      ]
+      |> Enum.each(&post_fixture/1)
+
+      conn = get(conn, ~p"/posts")
+      html = html_response(conn, 200)
+
+      {:ok, document} = Floki.parse_document(html)
+      titles =
+        document
+        |> Floki.find("td:first-child")
+        |> Enum.map(&Floki.text/1)
+        |> Enum.map(&String.trim/1)
+
+      assert titles == ~w[newest middle oldest]
     end
   end
 

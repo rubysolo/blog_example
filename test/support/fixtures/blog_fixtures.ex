@@ -12,7 +12,8 @@ defmodule Blergh.BlogFixtures do
       attrs
       |> Enum.into(%{
         content: "some content",
-        title: "some title"
+        title: "some title",
+        published_on: Date.utc_today()
       })
       |> Blergh.Blog.create_post()
 
