@@ -33,6 +33,26 @@ defmodule BlerghWeb.PostControllerTest do
 
       assert titles == ~w[newest middle oldest]
     end
+
+    test "invisible posts are not shown", %{conn: conn} do
+      [
+        %{title: "visible"},
+        %{title: "invisible", visible: false}
+      ]
+      |> Enum.each(&post_fixture/1)
+
+      conn = get(conn, ~p"/posts")
+      html = html_response(conn, 200)
+
+      {:ok, document} = Floki.parse_document(html)
+      titles =
+        document
+        |> Floki.find("td:first-child")
+        |> Enum.map(&Floki.text/1)
+        |> Enum.map(&String.trim/1)
+
+      assert titles == ~w[visible]
+    end
   end
 
   describe "new post" do

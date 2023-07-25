@@ -18,7 +18,11 @@ defmodule Blergh.Blog do
 
   """
   def list_posts do
-    Repo.all(from p in Post, order_by: [desc: :published_on])
+    Repo.all(
+      from p in Post,
+      where: p.visible,
+      order_by: [desc: :published_on]
+    )
   end
 
   @doc """
