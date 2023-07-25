@@ -16,18 +16,18 @@ defmodule Blergh.Blog.Post do
     post
     |> cast(attrs, [:title, :content, :published_on, :visible])
     |> validate_required([:title, :content, :published_on])
-    |> validate_date_not_past(:published_on)
+    #|> validate_date_not_past(:published_on)
   end
 
-  defp validate_date_not_past(changeset, field_name) do
-    date = get_field(changeset, field_name) || Date.utc_today()
+  # defp validate_date_not_past(changeset, field_name) do
+  #   date = get_field(changeset, field_name) || Date.utc_today()
 
-    case Date.compare(date, Date.utc_today()) do
-      :lt ->
-        add_error(changeset, field_name, "must not be in the past")
+  #   case Date.compare(date, Date.utc_today()) do
+  #     :lt ->
+  #       add_error(changeset, field_name, "must not be in the past")
 
-      _ ->
-        changeset
-    end
-  end
+  #     _ ->
+  #       changeset
+  #   end
+  # end
 end
