@@ -15,9 +15,9 @@ defmodule BlerghWeb.PostControllerTest do
 
     test "posts are sorted newest to oldest", %{conn: conn} do
       [
-        %{title: "middle", published_on: ~D[3023-06-01]},
-        %{title: "newest", published_on: ~D[3023-07-01]},
-        %{title: "oldest", published_on: ~D[3023-05-01]},
+        %{title: "middle", published_on: ~D[2023-06-01]},
+        %{title: "newest", published_on: ~D[2023-07-01]},
+        %{title: "oldest", published_on: ~D[2023-05-01]},
       ]
       |> Enum.each(&post_fixture/1)
 
