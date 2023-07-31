@@ -10,8 +10,9 @@ defmodule Blergh.BlogTest do
 
     @invalid_attrs %{content: nil, title: nil}
 
-    test "list_posts/0 returns all posts" do
+    test "list_posts/0 returns past posts" do
       post = post_fixture()
+      post_fixture(%{title: "no", published_on: Date.utc_today() |> Date.add(3)})
       assert Blog.list_posts() == [post]
     end
 
@@ -26,6 +27,13 @@ defmodule Blergh.BlogTest do
       assert {:ok, %Post{} = post} = Blog.create_post(valid_attrs)
       assert post.content == "some content"
       assert post.title == "some title"
+    end
+
+    test "create_post/1 with unique title creates a post" do
+      valid_attrs = %{content: "some content", title: "some title", published_on: Date.utc_today()}
+
+      assert {:ok, %Post{} = post} = Blog.create_post(valid_attrs)
+      assert {:error, _changeset} = Blog.create_post(valid_attrs)
     end
 
     test "create_post/1 with invalid data returns error changeset" do

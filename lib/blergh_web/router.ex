@@ -19,7 +19,9 @@ defmodule BlerghWeb.Router do
 
     get "/", PageController, :home
 
-    resources "/posts", PostController
+    resources "/posts", PostController do
+      resources "/comments", CommentController
+    end
   end
 
   # Other scopes may use custom stacks.

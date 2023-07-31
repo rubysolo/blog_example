@@ -1,6 +1,8 @@
 defmodule BlerghWeb.PostController do
   use BlerghWeb, :controller
 
+  alias Blergh.Comments.Comment
+  alias Blergh.Comments
   alias Blergh.Blog
   alias Blergh.Blog.Post
 
@@ -28,7 +30,9 @@ defmodule BlerghWeb.PostController do
 
   def show(conn, %{"id" => id}) do
     post = Blog.get_post!(id)
-    render(conn, :show, post: post)
+    changeset = Comments.change_comment(%Comment{post_id: post.id})
+    IO.inspect(post, label: "---------LABEL---------")
+    render(conn, :show, post: post, changeset: changeset)
   end
 
   def edit(conn, %{"id" => id}) do

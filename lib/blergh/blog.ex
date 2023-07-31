@@ -21,7 +21,8 @@ defmodule Blergh.Blog do
     Repo.all(
       from p in Post,
       where: p.visible,
-      order_by: [desc: :published_on]
+      order_by: [desc: :published_on],
+      where: p.published_on <= ^Date.utc_today()
     )
   end
 
@@ -39,7 +40,7 @@ defmodule Blergh.Blog do
       ** (Ecto.NoResultsError)
 
   """
-  def get_post!(id), do: Repo.get!(Post, id)
+  def get_post!(id), do: Repo.get!(Post, id) |> Repo.preload(:comments)
 
   @doc """
   Creates a post.

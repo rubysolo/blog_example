@@ -14,4 +14,19 @@
   <:item title="Content"><%= @post.content %></:item>
 </.list>
 
+<.table id="comments" rows={@post.comments}>
+  <:col :let={comment} label="Comments"><%= comment.content %></:col>
+</.table>
+
+<.simple_form :let={f} for={@changeset} action={~p"/posts/#{@post.id}/comments"}>
+  <.error :if={@changeset.action}>
+    Oops, something went wrong! Please check the errors below.
+  </.error>
+  <.input field={f[:content]} type="text" label="Content" />
+  <:actions>
+    <.button>Comment</.button>
+  </:actions>
+</.simple_form>
+
+
 <.back navigate={~p"/posts"}>Back to posts</.back>

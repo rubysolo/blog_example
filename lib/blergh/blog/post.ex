@@ -7,6 +7,7 @@ defmodule Blergh.Blog.Post do
     field :title, :string
     field :published_on, :date
     field :visible, :boolean, default: true
+    has_many :comments, Blergh.Comments.Comment
 
     timestamps()
   end
@@ -16,6 +17,7 @@ defmodule Blergh.Blog.Post do
     post
     |> cast(attrs, [:title, :content, :published_on, :visible])
     |> validate_required([:title, :content, :published_on])
+    |> unique_constraint(:title)
     #|> validate_date_not_past(:published_on)
   end
 
